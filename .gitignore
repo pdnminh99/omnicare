@@ -4,6 +4,7 @@ target/
 !**/src/main/**
 !**/src/test/**
 src/main/resources/static/*
+src/main/appengine/*
 
 ### STS ###
 .apt_generated

@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>com.thcntt3</groupId>
 	<artifactId>omnicare</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.05.26</version>
 	<name>omnicare</name>
 	<description>Semester 1933</description>
 
@@ -18,7 +18,25 @@
 		<failOnMissingWebXml>false</failOnMissingWebXml>
 	</properties>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.google.cloud</groupId>
+				<artifactId>libraries-bom</artifactId>
+				<version>3.4.0</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<dependencies>
+		<dependency>
+			<groupId>com.google.firebase</groupId>
+			<artifactId>firebase-admin</artifactId>
+			<version>6.13.0</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

@@ -1,3 +1,5 @@
 spring:
   main:
     banner-mode: off
+tokenExpireAfter: 1
+durationBeforeDisconnect: 10

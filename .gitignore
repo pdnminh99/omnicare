@@ -5,6 +5,7 @@ target/
 !**/src/test/**
 src/main/resources/static/*
 src/main/appengine/*
+key.json
 
 ### STS ###
 .apt_generated

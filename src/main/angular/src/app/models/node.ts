@@ -36,5 +36,5 @@ export interface TempHumidComponent extends Node{
 }
 
 export interface LightComponent extends Node {
-  isLightOn: boolean;
+  lightOn: boolean;
 }

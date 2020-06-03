@@ -1,8 +1,9 @@
 import {Component, Input} from '@angular/core';
-import {FireComponent} from '../models/node';
+import {LightComponent} from '../models/node';
+
 
 @Component({
-  selector: 'app-fire-node-display',
+  selector: 'app-light-display',
   template: `
     <div>
       <h1 style="text-align: center; margin: 5px 0; font-size: large; font-weight: bolder;">Pin {{ node?.pinNumber }}</h1>
@@ -15,11 +16,12 @@ import {FireComponent} from '../models/node';
         </div>
 
         <div class="cell">
-          <h5>State</h5>
-          <div>{{ node?.state || 'Unknown value' }}</div>
+          <h5>Light Status</h5>
+          <div>{{ node?.lightOn ? 'ON' : 'OFF' }}</div>
         </div>
 
       </div>
+
     </div>
   `,
   styles: [`
@@ -49,9 +51,10 @@ import {FireComponent} from '../models/node';
     .node-display:first-child {
       padding-left: 20px;
     }
+
   `]
 })
-export class FireNodeDisplayComponent {
+export class LightNodeDisplayComponent {
   @Input()
-  public node: FireComponent;
+  public node: LightComponent;
 }

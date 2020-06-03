@@ -9,6 +9,7 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 import {TempHumidNodeDisplayComponent} from './components/temp-humid-node-display.component';
+import {LightNodeDisplayComponent} from './components/light-node-display.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {TempHumidNodeDisplayComponent} from './components/temp-humid-node-displa
     FireNodeDisplayComponent,
     ModuleDisplayComponent,
     NodeDisplayComponent,
-    TempHumidNodeDisplayComponent
+    TempHumidNodeDisplayComponent,
+    LightNodeDisplayComponent
   ],
   imports: [
     BrowserModule,

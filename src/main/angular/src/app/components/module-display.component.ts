@@ -10,18 +10,13 @@ import {ComponentType, Node} from '../models/node';
     <div class="module-wrapper">
       <h2 class="MAC-display">MAC address: {{ MAC }}</h2>
       <app-component-display [node]="firstComponent"></app-component-display>
+      <hr />
       <app-component-display [node]="secondComponent"></app-component-display>
     </div>
   `,
   styles: [`
     .MAC-display {
       margin-bottom: 20px;
-    }
-
-    .module-wrapper {
-      border-radius: 20px;
-      border-width: 1px;
-      border-color: black;
     }
   `]
 })
@@ -66,7 +61,7 @@ export class ModuleDisplayComponent implements OnInit, OnDestroy {
   template: `
     <div>
       <div
-        style="width: 100%; height: 100px; border: 1px black solid; border-radius: 5px; text-align: center; vertical-align: middle; font-family: sans-serif; font-size: large; font-weight: bolder; margin: 5px 0;"
+        class="node-not-active"
         *ngIf="!isNodeActive">
         Component not active
       </div>
@@ -74,9 +69,21 @@ export class ModuleDisplayComponent implements OnInit, OnDestroy {
       <div *ngIf="isNodeActive">
         <app-fire-node-display *ngIf="isFireNode" [node]="node"></app-fire-node-display>
         <app-temp-humid-display *ngIf="isTempHumidNode" [node]="node"></app-temp-humid-display>
+        <app-light-display *ngIf="isLightNode" [node]="node"></app-light-display>
       </div>
     </div>
-  `
+  `,
+  styles: [`
+    .node-not-active {
+      width: 100%;
+      height: 100px;
+      text-align: center;
+      font-family: sans-serif;
+      font-size: large;
+      font-weight: bolder;
+      margin: 5px 0;
+    }
+  `]
 })
 export class NodeDisplayComponent {
   @Input()
@@ -88,6 +95,10 @@ export class NodeDisplayComponent {
 
   public get isTempHumidNode(): boolean {
     return this.node?.type === ComponentType.TEMP_HUMID;
+  }
+
+  public get isLightNode(): boolean {
+    return this.node?.type === ComponentType.LIGHT;
   }
 
   public get isNodeActive(): boolean {

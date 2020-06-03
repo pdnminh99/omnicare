@@ -5,30 +5,57 @@ import {TempHumidComponent} from '../models/node';
 @Component({
   selector: 'app-temp-humid-display',
   template: `
-    <div style="width: 100%; border: 1px black solid; border-radius: 20px; display: table">
+    <div>
+      <h1 style="text-align: center; margin: 5px 0; font-size: large; font-weight: bolder;">Pin {{ node?.pinNumber }}</h1>
 
-      <div style="display: table-cell">
-        <h3>Pin</h3>
-        <span>{{ node?.pinNumber }}</span>
+      <div class="node-display">
+
+        <div class="cell">
+          <h5>Type</h5>
+          <div>{{ node?.type?.toString() }}</div>
+        </div>
+
+        <div class="cell">
+          <h5>Humidity</h5>
+          <div>{{ node?.humidity }}%</div>
+        </div>
+
+        <div class="cell">
+          <h5>Temperature</h5>
+          <div>{{ node?.temperature }}\u00B0C</div>
+        </div>
+
       </div>
-
-      <div style="display: table-cell">
-        <h3>Type</h3>
-        <span>{{ node?.type?.toString() }}</span>
-      </div>
-
-      <div style="display: table-cell">
-        <h3>Humidity</h3>
-        <span>{{ node?.humidity }}%</span>
-      </div>
-
-      <div style="display: table-cell">
-        <h3>Temperature</h3>
-        <span>{{ node?.temperature }}oC</span>
-      </div>
-
     </div>
-  `
+  `,
+  styles: [`
+    .cell {
+      font-family: sans-serif;
+      display: table-cell;
+      vertical-align: top;
+    }
+
+    .cell h5 {
+      text-align: center;
+      font-weight: normal;
+    }
+
+    .cell div {
+      text-align: center;
+      font-size: 30px;
+      font-weight: bolder;
+    }
+
+    .node-display {
+      width: 100%;
+      height: 100px;
+      display: table;
+    }
+
+    .node-display:first-child {
+      padding-left: 20px;
+    }
+  `]
 })
 export class TempHumidNodeDisplayComponent {
   @Input()

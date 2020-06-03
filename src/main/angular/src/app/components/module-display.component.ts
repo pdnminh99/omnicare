@@ -6,8 +6,8 @@ import { ComponentType, Node } from '../models/node';
 @Component({
   selector: 'app-module-display',
   template: `
-    <div class="module-wrapper">
-      <h2 class="MAC-display">MAC address: {{ MAC }}</h2>
+    <div class="module-wrapper container">
+      <div class="badge  badge-dark mt-5 mb-2">Node: {{ MAC }}</div>
       <app-component-display [node]="firstComponent"></app-component-display>
       <div class="my-4"></div>
       <app-component-display [node]="secondComponent"></app-component-display>
@@ -15,8 +15,9 @@ import { ComponentType, Node } from '../models/node';
   `,
   styles: [
     `
-      .MAC-display {
-        margin-bottom: 20px;
+      .badge {
+        font-size: 20px;
+        font-weight: normal;
       }
     `,
   ],
@@ -62,7 +63,7 @@ export class ModuleDisplayComponent implements OnInit, OnDestroy {
   template: `
     <div>
       <div
-        class="node-not-active card d-flex justify-content-center align-items-center"
+        class="node-not-active p-3 border rounded d-flex justify-content-center align-items-center"
         *ngIf="!isNodeActive"
       >
         <img src="../../assets/sleep.png" />
@@ -87,13 +88,11 @@ export class ModuleDisplayComponent implements OnInit, OnDestroy {
   styles: [
     `
       .node-not-active {
-        width: 100%;
-        height: 100px;
         text-align: center;
         font-family: sans-serif;
         font-size: large;
         font-weight: bolder;
-        margin: 5px 0;
+        margin: 0 -15px 0 -15px;
       }
 
       .node-not-active img {

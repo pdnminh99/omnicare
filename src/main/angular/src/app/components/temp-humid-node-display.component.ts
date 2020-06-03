@@ -4,18 +4,16 @@ import { TempHumidComponent } from '../models/node';
 @Component({
   selector: 'app-temp-humid-display',
   template: `
-    <div class="border rounded p-3">
+    <div class="row border rounded p-3 bg-blue">
       <!-- <h1
         style="text-align: center; margin: 5px 0; font-size: large; font-weight: bolder;"
       >
         Port {{ node?.pinNumber }}
       </h1> -->
-
-      <div class="node-display">
-        <div class="cell">
-          <img src="../../assets/temperature.png" width="80px" />
-        </div>
-
+      <div class="col-12 col-sm-3 d-flex justify-content-center">
+        <img src="../../assets/temperature.png" width="80px" height="80px" />
+      </div>
+      <div class="node-display col-12 col-sm-9">
         <div class="cell">
           <h5>Temperature</h5>
           <div>{{ node?.temperature | number: '1.0-2' }}°C</div>
@@ -29,12 +27,9 @@ import { TempHumidComponent } from '../models/node';
   `,
   styles: [
     `
-      .cell {
-        font-family: sans-serif;
-        display: table-cell;
-        vertical-align: top;
+      .bg-blue {
+        background-color: #80deea;
       }
-
       .cell h5 {
         text-align: center;
         font-weight: normal;
@@ -50,10 +45,6 @@ import { TempHumidComponent } from '../models/node';
         display: flex;
         justify-content: space-around;
         align-items: center;
-      }
-
-      .node-display:first-child {
-        padding-left: 20px;
       }
     `,
   ],

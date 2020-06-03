@@ -1,15 +1,19 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
-import {FireNodeDisplayComponent} from './components/fire-node-display.component';
-import {NodeDisplayComponent, ModuleDisplayComponent} from './components/module-display.component';
-import {AngularFirestoreModule} from '@angular/fire/firestore';
-import {AngularFireModule} from '@angular/fire';
-import {environment} from '../environments/environment';
-import {TempHumidNodeDisplayComponent} from './components/temp-humid-node-display.component';
-import {LightNodeDisplayComponent} from './components/light-node-display.component';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { FireNodeDisplayComponent } from './components/fire-node-display.component';
+import {
+  NodeDisplayComponent,
+  ModuleDisplayComponent,
+} from './components/module-display.component';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment';
+import { TempHumidNodeDisplayComponent } from './components/temp-humid-node-display.component';
+import { LightNodeDisplayComponent } from './components/light-node-display.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +22,8 @@ import {LightNodeDisplayComponent} from './components/light-node-display.compone
     ModuleDisplayComponent,
     NodeDisplayComponent,
     TempHumidNodeDisplayComponent,
-    LightNodeDisplayComponent
+    LightNodeDisplayComponent,
+    NavBarComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,7 +32,6 @@ import {LightNodeDisplayComponent} from './components/light-node-display.compone
     AngularFirestoreModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}

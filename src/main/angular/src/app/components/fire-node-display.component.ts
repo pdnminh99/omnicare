@@ -5,7 +5,7 @@ import { FireComponent } from '../models/node';
   selector: 'app-fire-node-display',
   template: `
     <div
-      class="border rounded"
+      class="row border rounded p-3"
       [ngClass]="{
         'bg-success': node?.state == 'SAFE',
         'bg-danger': node?.state == 'FIRE',
@@ -13,52 +13,37 @@ import { FireComponent } from '../models/node';
         'white-text': node?.state == 'SAFE' || node?.state == 'FIRE'
       }"
     >
-      <h1
+      <!-- <h1
         style="text-align: center; margin: 5px 0; font-size: large; font-weight: bolder;"
       >
         Port {{ node?.pinNumber }}
-      </h1>
+      </h1> -->
+      <div class="col-12 col-sm-3 d-flex justify-content-center">
+        <img src="../../assets/fire.png" width="80px" height="80px" />
+      </div>
 
-      <div class="node-display">
-        <div class="cell">
+      <div
+        class="node-display col-12 col-sm-9 d-flex justify-content-center align-items-center"
+      >
+        <!-- <div class="cell">
           <h5>Type</h5>
           <div>{{ node?.type?.toString() }}</div>
-        </div>
+        </div> -->
 
-        <div class="cell">
-          <h5>State</h5>
-          <div>{{ node?.state || 'Unknown value' }}</div>
-        </div>
+        <div class="state-text">{{ node?.state || 'Unknown value' }}</div>
       </div>
     </div>
   `,
   styles: [
     `
-      .cell {
-        font-family: sans-serif;
-        display: table-cell;
-        vertical-align: top;
-      }
-
       .cell h5 {
         text-align: center;
         font-weight: normal;
       }
 
-      .cell div {
-        text-align: center;
+      .state-text {
         font-size: 30px;
         font-weight: bolder;
-      }
-
-      .node-display {
-        width: 100%;
-        height: 100px;
-        display: table;
-      }
-
-      .node-display:first-child {
-        padding-left: 20px;
       }
 
       .white-text {

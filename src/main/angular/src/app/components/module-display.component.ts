@@ -22,7 +22,7 @@ import { ComponentType, Node } from '../models/node';
   ],
 })
 export class ModuleDisplayComponent implements OnInit, OnDestroy {
-  public MAC = '9sNvRgOD7mMsoSQh7Y2Y';
+  public MAC = '3C:71:BF:3A:47:7D';
 
   public firstComponent: Node;
 
@@ -37,14 +37,14 @@ export class ModuleDisplayComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.firstNodeSubscription = this.firestore
       .collection<Node>('components')
-      .doc(`1_${this.MAC}`)
+      .doc(`0_${this.MAC}`)
       .valueChanges()
       .subscribe((value) => {
         this.firstComponent = value as Node;
       });
     this.secondNodeSubscription = this.firestore
       .collection<Node>('components')
-      .doc(`2_${this.MAC}`)
+      .doc(`1_${this.MAC}`)
       .valueChanges()
       .subscribe((value) => {
         this.secondComponent = value as Node;

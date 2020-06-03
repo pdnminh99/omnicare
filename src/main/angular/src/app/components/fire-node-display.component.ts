@@ -5,6 +5,7 @@ import { FireComponent } from '../models/node';
   selector: 'app-fire-node-display',
   template: `
     <div
+      class="border rounded"
       [ngClass]="{
         'bg-success': node?.state == 'SAFE',
         'bg-danger': node?.state == 'FIRE',
@@ -15,7 +16,7 @@ import { FireComponent } from '../models/node';
       <h1
         style="text-align: center; margin: 5px 0; font-size: large; font-weight: bolder;"
       >
-        Pin {{ node?.pinNumber }}
+        Port {{ node?.pinNumber }}
       </h1>
 
       <div class="node-display">

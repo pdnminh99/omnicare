@@ -72,7 +72,6 @@ export class ModuleDisplayComponent implements OnInit, OnDestroy {
         <app-fire-node-display
           *ngIf="isFireNode"
           [node]="node"
-          class="card"
         ></app-fire-node-display>
         <app-temp-humid-display
           *ngIf="isTempHumidNode"

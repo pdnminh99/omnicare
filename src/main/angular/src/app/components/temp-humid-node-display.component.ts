@@ -5,7 +5,7 @@ import {TempHumidComponent} from '../models/node';
 @Component({
   selector: 'app-temp-humid-display',
   template: `
-    <div>
+    <div class="card">
       <h1 style="text-align: center; margin: 5px 0; font-size: large; font-weight: bolder;">Pin {{ node?.pinNumber }}</h1>
 
       <div class="node-display">

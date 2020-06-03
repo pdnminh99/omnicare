@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "omnicare-a0c59": {
+      "hosting": {
+        "angular": [
+          "omnicare-a0c59"
+        ]
+      }
+    }
+  }
+}

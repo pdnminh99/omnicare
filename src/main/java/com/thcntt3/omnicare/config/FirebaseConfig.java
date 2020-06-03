@@ -19,6 +19,8 @@ import java.nio.file.Paths;
 @Configuration
 public class FirebaseConfig {
 
+    private FirebaseApp app;
+
     @Bean("firebase")
     public void initializeFirebaseApp() throws IOException {
         if (!FirebaseApp.getApps().isEmpty()) {
@@ -41,7 +43,7 @@ public class FirebaseConfig {
                     .setCredentials(credentials)
                     .build();
         }
-        FirebaseApp.initializeApp(options);
+        app = FirebaseApp.initializeApp(options);
     }
 
     @Bean("firestore")
@@ -53,6 +55,6 @@ public class FirebaseConfig {
     @Bean("firebaseAuth")
     @DependsOn("firebase")
     public FirebaseAuth getFireAuth() {
-        return FirebaseAuth.getInstance();
+        return FirebaseAuth.getInstance(app);
     }
 }

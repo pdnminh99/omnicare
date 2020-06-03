@@ -48,10 +48,10 @@ public class ModuleService {
         this.firebaseAuth = firebaseAuth;
     }
 
-    public String getNewToken(String MAC) throws ExecutionException, InterruptedException, FirebaseAuthException {
+    public String getNewToken(String MAC, String name) throws ExecutionException, InterruptedException, FirebaseAuthException {
         Module module = repository.getModule(MAC);
         if (module == null) {
-            throw new IllegalArgumentException("No module with MAC address [" + MAC + "] found.");
+            return create(MAC, name);
         }
         String newToken = firebaseAuth.createCustomToken(MAC).trim();
 
@@ -59,6 +59,7 @@ public class ModuleService {
         module.setTokenRefreshedAt(Timestamp.now());
 
         repository.updateModule(module);
+        repository.commit();
         return newToken;
     }
 
@@ -87,11 +88,11 @@ public class ModuleService {
         repository.commit();
     }
 
-    public Module create(String MAC, String name) throws FirebaseAuthException {
+    public String create(String MAC, String name) throws FirebaseAuthException {
         var now = Timestamp.now();
         var newModule = new Module(MAC, firebaseAuth.createCustomToken(MAC).trim(), now, now, name, true);
         repository.create(newModule);
-        return newModule;
+        return newModule.getToken();
     }
 }
 

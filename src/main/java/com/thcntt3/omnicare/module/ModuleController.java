@@ -6,6 +6,7 @@ import com.google.cloud.Timestamp;
 import com.google.firebase.auth.FirebaseAuthException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,20 +25,22 @@ public class ModuleController {
         this.service = service;
     }
 
-    @GetMapping("create/{MAC}")
-    public Module create(@PathVariable String MAC,
+    @GetMapping(value = "create/{MAC}", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String create(@PathVariable String MAC,
                          @Nullable
                          @RequestParam String name) throws FirebaseAuthException {
         return service.create(MAC, name);
     }
 
-    @GetMapping("token/{MAC}")
+    @GetMapping(value = "token/{MAC}", produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public String refreshToken(@PathVariable String MAC) throws ExecutionException, InterruptedException, FirebaseAuthException {
-        return service.getNewToken(MAC);
+    public String refreshToken(@PathVariable String MAC,
+                               @Nullable
+                               @RequestParam String name) throws ExecutionException, InterruptedException, FirebaseAuthException {
+        return service.getNewToken(MAC, name);
     }
 
-    // token component pin data (temp-humid)
+    // token pin component data (temp-humid)
     @PostMapping("{MAC}")
     @ResponseStatus(HttpStatus.OK)
     public void update(@PathVariable String MAC,
@@ -49,9 +52,9 @@ public class ModuleController {
         if (data.length != 4) {
             throw new IllegalArgumentException("Not enough input data.");
         }
-        Integer pinNumber = Integer.valueOf(data[2]);
-        ComponentType type = ComponentType.fromText(data[1]);
         String token = data[0];
+        Integer pinNumber = Integer.valueOf(data[1]);
+        ComponentType type = ComponentType.fromText(data[2]);
 
         Component component = Component.newBuilder(type)
                 .setComponentId(pinNumber + "_" + MAC)

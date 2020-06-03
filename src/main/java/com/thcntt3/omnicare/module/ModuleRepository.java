@@ -60,12 +60,19 @@ class ModuleRepository {
         updateMap.put("tokenRefreshedAt", module.getTokenRefreshedAt());
         updateMap.put("name", module.getName());
         updateMap.put("lastRefresh", module.getLastRefresh());
-        updateMap.put("isActive", module.getActive());
+        updateMap.put("isActive", module.getIsActive());
 
         batch.update(modulesCollection.document(module.getMAC()), updateMap);
     }
 
-    public void commit() {
+    public void commit() throws ExecutionException, InterruptedException {
+        if (isBatchActive()) {
+            batch.commit().get();
+            batch = null;
+        }
+    }
+
+    public void commitAsync() {
         if (isBatchActive()) {
             batch.commit();
             batch = null;

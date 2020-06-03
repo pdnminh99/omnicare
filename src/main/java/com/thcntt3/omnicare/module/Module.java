@@ -125,11 +125,11 @@ public class Module {
     }
 
     @Nullable
-    public Boolean getActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
-    public void setActive(@Nullable Boolean active) {
+    public void setIsActive(@Nullable Boolean active) {
         isActive = active;
     }
 

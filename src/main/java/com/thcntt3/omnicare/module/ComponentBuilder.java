@@ -1,31 +1,23 @@
 package com.thcntt3.omnicare.module;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.cloud.Timestamp;
-import org.springframework.lang.Nullable;
+
+import java.util.List;
 
 public class ComponentBuilder {
 
-    private String parentModule;
+    private String MAC;
 
-    private Integer pinNumber;
+    private int pinNumber = 0;
 
     private Timestamp lastRefresh;
 
-    private String data;
+    private List<RawData> data;
 
-    private Float temperature;
+    private boolean isActive = false;
 
-    private Float humidity;
-
-    private Boolean isLightOn;
-
-    private FireState fireState;
-
-    private ComponentType type;
-
-    public ComponentBuilder setComponentId(String parentModule) {
-        this.parentModule = parentModule;
+    public ComponentBuilder setMAC(String MAC) {
+        this.MAC = MAC;
         return this;
     }
 
@@ -39,68 +31,30 @@ public class ComponentBuilder {
         return this;
     }
 
-    public ComponentBuilder setType(ComponentType type) {
-        this.type = type;
-        return this;
-    }
-
-    public ComponentBuilder setData(String data) {
+    public ComponentBuilder setData(List<RawData> data) {
         this.data = data;
-        if (type != null) {
-            switch (type) {
-                case TEMP_HUMID:
-                    String[] raw = data.split("_");
-                    if (raw.length > 0) {
-                        temperature = Float.valueOf(raw[0]);
-                        if (raw.length > 1) {
-                            humidity = Float.valueOf(raw[1]);
-                        }
-                    }
-                    break;
-                case LIGHT:
-                    isLightOn = Boolean.valueOf(data);
-                    break;
-                case FIRE:
-                    fireState = FireState.fromText(data);
-                    break;
-            }
-        }
         return this;
     }
 
-    public ComponentBuilder setTemperature(Float temperature) {
-        this.temperature = temperature;
+    public ComponentBuilder setIsActive(boolean isActive) {
+        this.isActive = isActive;
         return this;
     }
 
-    public ComponentBuilder setHumidity(Float humidity) {
-        this.humidity = humidity;
-        return this;
-    }
-
-    public ComponentBuilder setLightState(Boolean state) {
-        this.isLightOn = state;
-        return this;
-    }
-
-    public ComponentBuilder setFireState(FireState fireState) {
-        this.fireState = fireState;
+    public ComponentBuilder addData(RawData data) {
+        if (this.data == null) {
+            this.data = List.of(data);
+        } else this.data.add(data);
         return this;
     }
 
     public Component build() {
-        if (type == null) {
-            return new Component(parentModule, pinNumber, null, lastRefresh);
-        }
-        switch (type) {
-            case FIRE:
-                return new FireComponent(parentModule, pinNumber, type, fireState, lastRefresh);
-            case LIGHT:
-                return new LightComponent(parentModule, pinNumber, type, isLightOn, lastRefresh);
-            case TEMP_HUMID:
-                return new TempHumidComponent(parentModule, pinNumber, type, temperature, humidity, lastRefresh);
-            default:
-                return null;
-        }
+        return new Component(
+                MAC,
+                pinNumber,
+                data,
+                isActive,
+                lastRefresh
+        );
     }
 }

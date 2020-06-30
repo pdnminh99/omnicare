@@ -3,17 +3,20 @@ package com.thcntt3.omnicare.module;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.api.client.util.Lists;
 import com.google.cloud.Timestamp;
-import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.cloud.firestore.annotation.Exclude;
+import com.google.cloud.firestore.annotation.PropertyName;
 import org.springframework.lang.Nullable;
+
+import java.util.List;
 
 public class Module {
 
-    @Exclude
+    @DocumentId
     private String MAC;
 
-    @JsonProperty
     private String token;
 
     @JsonIgnore
@@ -28,15 +31,19 @@ public class Module {
     private String name;
 
     @Nullable
-    @JsonProperty
     private Boolean isActive;
 
     @Exclude
-    private Timestamp createTime;
+    private List<Component> components;
+
+    private List<String> users;
     // Component:
     // - fire: FIRE; 0 - OFF, 1 - SAFE; 2 - SMOKE; 3 - FIRE
     // - temp-humid: TEMP_HUMID
     // - light: LIGHT
+
+    public Module() {
+    }
 
     public Module(
             String MAC,
@@ -44,30 +51,26 @@ public class Module {
             Timestamp tokenRefreshedAt,
             @Nullable Timestamp lastRefresh,
             @Nullable String name,
+            List<Component> components,
+            List<String> users,
             @Nullable Boolean isActive) {
         this.MAC = MAC;
         this.token = token;
         this.tokenRefreshedAt = tokenRefreshedAt;
         this.lastRefresh = lastRefresh;
         this.name = name;
+        this.components = components;
+        this.users = users;
         this.isActive = isActive;
     }
 
-    public Module(DocumentSnapshot snapshot) {
-        this.MAC = snapshot.getId();
-        this.token = snapshot.getString("token");
-        this.name = snapshot.getString("name");
-        this.tokenRefreshedAt = snapshot.getTimestamp("tokenRefreshedAt");
-        this.lastRefresh = snapshot.getTimestamp("lastRefresh");
-        this.createTime = snapshot.getCreateTime();
-        this.isActive = snapshot.getBoolean("isActive");
-    }
-
-    @Exclude
+    @JsonGetter("MAC")
+    @PropertyName("MAC")
     public String getMAC() {
         return MAC;
     }
 
+    @PropertyName("MAC")
     public void setMAC(String MAC) {
         this.MAC = MAC;
     }
@@ -134,7 +137,26 @@ public class Module {
     }
 
     @Exclude
-    public Timestamp getCreateTime() {
-        return createTime;
+    public List<Component> getComponents() {
+        return components;
+    }
+
+    public void setComponents(List<Component> components) {
+        this.components = components;
+    }
+
+    public void addComponent(Component component) {
+        if (components == null) {
+            components = Lists.newArrayList();
+        }
+        components.add(component);
+    }
+
+    public List<String> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<String> users) {
+        this.users = users;
     }
 }

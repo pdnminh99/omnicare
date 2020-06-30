@@ -7,6 +7,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.firebase.messaging.FirebaseMessaging;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -50,6 +51,12 @@ public class FirebaseConfig {
     @DependsOn("firebase")
     public Firestore getFirestore() {
         return FirestoreClient.getFirestore();
+    }
+
+    @Bean("fcm")
+    @DependsOn("firebase")
+    public FirebaseMessaging getFCM() {
+        return FirebaseMessaging.getInstance();
     }
 
     @Bean("firebaseAuth")

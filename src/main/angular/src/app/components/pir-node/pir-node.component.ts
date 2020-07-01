@@ -7,16 +7,20 @@ import { RawData } from 'src/app/models/node';
   styleUrls: ['./pir-node.component.scss'],
 })
 export class PirNodeComponent implements OnInit {
-  constructor() {
+  @Input() public data: RawData[] = [];
+  @Input() public pinNumber: number;
 
-  }
+  constructor() {}
+
   ngOnInit(): void {}
 
   public get latestData(): RawData {
     return this.data[0];
   }
 
-  @Input() public data: RawData[] = [];
-
-  @Input() public pinNumber: number;
+  public get validData(): number[] {
+    return this.data
+      .filter((d) => d.type == 'LIGHT' && d.data == 'TRUE')
+      .map((d) => d.createdAt.toMillis());
+  }
 }

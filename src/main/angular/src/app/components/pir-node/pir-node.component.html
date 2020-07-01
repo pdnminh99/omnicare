@@ -1,24 +1,32 @@
-<div class="card">
-  <h1
-    style="
-      text-align: center;
-      margin: 5px 0;
-      font-size: large;
-      font-weight: bolder;
-    "
-  >
-    Pin {{ pinNumber }}
-  </h1>
+<div
+  class="row rounded p-3"
+  [ngClass]="{
+    'no-motion': latestData?.data != 'TRUE',
+    'has-motion': latestData?.data == 'TRUE'
+  }"
+>
+  <div class="col-12 col-sm-3 d-flex justify-content-center align-items-center">
+    <img src="../../assets/move.png" width="80px" height="80px" />
+  </div>
 
-  <div class="node-display">
-    <div class="cell">
-      <h5>Type</h5>
-      <div>LIGHT</div>
-    </div>
-
-    <div class="cell">
-      <h5>Light Status</h5>
-      <div>{{ latestData?.data || "OFF" }}</div>
+  <div class="col-12 col-sm-9 d-flex justify-content-center align-items-center">
+    <div *ngFor="let data of validData; let i = index" class="m-4">
+      <div></div>
+      <span
+        class="badge badge-info p-2"
+        [ngClass]="{
+          first: i == 0
+        }"
+        ><span style="font-size: 20px;">
+          {{ data | date: "HH:mm" }}
+        </span>
+        <span style="font-size: 14px;">
+          {{ data | date: "ss" }}
+        </span>
+        <div class="mt-2" style="font-size: 16px; font-weight: normal;">
+          {{ data | date: "dd MMM yy" }}
+        </div>
+      </span>
     </div>
   </div>
 </div>

@@ -1,7 +1,7 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {ComponentType, Node} from '../models/node';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {falseIfMissing} from 'protractor/built/util';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ComponentType, Node } from '../models/node';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { falseIfMissing } from 'protractor/built/util';
 
 @Component({
   selector: 'app-module-display',
@@ -14,7 +14,7 @@ import {falseIfMissing} from 'protractor/built/util';
     </div>
   `,
   styles: [
-      `
+    `
       .badge {
         font-size: 20px;
         font-weight: normal;
@@ -23,22 +23,20 @@ import {falseIfMissing} from 'protractor/built/util';
   ],
 })
 export class ModuleDisplayComponent implements OnInit {
-
   public MAC = '3C:71:BF:3A:47:7D';
 
   public firstComponent: Node;
 
   public secondComponent: Node;
 
-  constructor(private firestore: AngularFirestore) {
-  }
+  constructor(private firestore: AngularFirestore) {}
 
   ngOnInit(): void {
     this.firestore
       .collection('components')
       .doc<Node>(`0_${this.MAC}`)
       .valueChanges()
-      .subscribe(value => {
+      .subscribe((value) => {
         this.firstComponent = value;
       });
 
@@ -46,11 +44,10 @@ export class ModuleDisplayComponent implements OnInit {
       .collection('components')
       .doc<Node>(`1_${this.MAC}`)
       .valueChanges()
-      .subscribe(value => {
+      .subscribe((value) => {
         this.secondComponent = value;
       });
   }
-
 }
 
 @Component({
@@ -61,7 +58,7 @@ export class ModuleDisplayComponent implements OnInit {
         class="node-not-active p-3 border rounded d-flex justify-content-center align-items-center"
         *ngIf="!isActive"
       >
-        <img src="../../assets/sleep.png"/>
+        <img src="../../assets/sleep.png" />
       </div>
 
       <div *ngIf="isActive">
@@ -73,16 +70,16 @@ export class ModuleDisplayComponent implements OnInit {
           *ngIf="componentType == 'TEMP_HUMID'"
           [raw]="node?.data"
         ></app-temp-humid-display>
-        <app-light-display
+        <app-pir-node
           *ngIf="componentType == 'LIGHT'"
           [data]="node?.data"
           [pinNumber]="node?.pinNumber"
-        ></app-light-display>
+        ></app-pir-node>
       </div>
     </div>
   `,
   styles: [
-      `
+    `
       .node-not-active {
         text-align: center;
         font-family: sans-serif;

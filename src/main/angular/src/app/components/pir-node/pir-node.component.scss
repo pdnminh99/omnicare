@@ -1,0 +1,26 @@
+.cell {
+  font-family: sans-serif;
+  display: table-cell;
+  vertical-align: top;
+}
+
+.cell h5 {
+  text-align: center;
+  font-weight: normal;
+}
+
+.cell div {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bolder;
+}
+
+.node-display {
+  width: 100%;
+  height: 100px;
+  display: table;
+}
+
+.node-display:first-child {
+  padding-left: 20px;
+}

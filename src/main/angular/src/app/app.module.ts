@@ -14,6 +14,7 @@ import {LightNodeDisplayComponent} from './components/light-node-display.compone
 import {NavBarComponent} from './components/nav-bar/nav-bar.component';
 import {AngularFireMessagingModule} from '@angular/fire/messaging';
 import {ChartsModule} from 'ng2-charts';
+import { PirNodeComponent } from './components/pir-node/pir-node.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import {ChartsModule} from 'ng2-charts';
     TempHumidNodeDisplayComponent,
     LightNodeDisplayComponent,
     NavBarComponent,
+    PirNodeComponent,
   ],
   imports: [
     BrowserModule,

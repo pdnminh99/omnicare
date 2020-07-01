@@ -96,8 +96,8 @@ public class Component {
         return isActive;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
     public void setComponentId(String componentId) {

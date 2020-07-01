@@ -27,7 +27,7 @@ public class CollectionsConfig {
     @Scope("singleton")
     public CollectionReference getUsersCollection() throws DatabaseFailedToInitializeException {
         return Optional.ofNullable(firestore)
-                .map(db -> db.collection(isDeploymentEnvironment ? "modules" : "modules_dev"))
+                .map(db -> db.collection(isDeploymentEnvironment ? "modules" : "modules"))
                 .orElseThrow(DatabaseFailedToInitializeException::new);
     }
 
@@ -36,7 +36,7 @@ public class CollectionsConfig {
     @Scope("singleton")
     public CollectionReference getComponentsCollection() throws DatabaseFailedToInitializeException {
         return Optional.ofNullable(firestore)
-                .map(db -> db.collection(isDeploymentEnvironment ? "components" : "components_dev"))
+                .map(db -> db.collection(isDeploymentEnvironment ? "components" : "components"))
                 .orElseThrow(DatabaseFailedToInitializeException::new);
     }
 

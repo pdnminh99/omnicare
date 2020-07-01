@@ -24,7 +24,7 @@ import {falseIfMissing} from 'protractor/built/util';
 })
 export class ModuleDisplayComponent implements OnInit {
 
-  public MAC = '9sNvRgOD7mMsoSQh7Y2Y';
+  public MAC = '3C:71:BF:3A:47:7D';
 
   public firstComponent: Node;
 
@@ -48,7 +48,6 @@ export class ModuleDisplayComponent implements OnInit {
       .valueChanges()
       .subscribe(value => {
         this.secondComponent = value;
-        console.log(value);
       });
   }
 

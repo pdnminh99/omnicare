@@ -62,7 +62,7 @@ class ModuleRepository {
         updateMap.put("tokenRefreshedAt", module.getTokenRefreshedAt());
         updateMap.put("name", module.getName());
         updateMap.put("lastRefresh", module.getLastRefresh());
-        updateMap.put("isActive", module.getIsActive());
+        updateMap.put("isActive", true);
 
         batch.update(modulesCollection.document(module.getMAC()), updateMap);
     }
@@ -89,9 +89,8 @@ class ModuleRepository {
     }
 
     public void removeOldComponents(Timestamp durationBefore) throws ExecutionException, InterruptedException {
-        if (!isBatchActive()) {
-            resetBatch();
-        }
+        WriteBatch temp = firestore.batch();
+
         var now = Timestamp.now();
         List<DocumentReference> componentsToDelete = componentsCollection
                 .whereLessThan("lastRefresh", durationBefore)
@@ -108,15 +107,15 @@ class ModuleRepository {
 
         componentsToDelete.stream()
                 .map(DocumentReference::getId)
-                .forEach(id -> batch.update(componentsCollection.document(id), updateMap));
+                .forEach(id -> temp.update(componentsCollection.document(id), updateMap));
         updateMap.clear();
         updateMap.put("lastRefresh", now);
 
         componentsToDelete.stream()
                 .map(DocumentReference::getId)
                 .map(id -> id.split("_")[1])
-                .forEach(id -> modulesCollection.document(id).update(updateMap));
-        commit();
+                .forEach(id -> temp.update(modulesCollection.document(id), updateMap));
+        temp.commit();
     }
 
     public void create(Module newModule) {

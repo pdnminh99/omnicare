@@ -42,7 +42,7 @@ public class ModuleService {
 
         var durationBefore = Timestamp.of(calendar.getTime());
         repository.removeOldComponents(durationBefore);
-//        applicationService.refresh(now);
+        applicationService.refresh(now);
     }
 
     @Autowired
@@ -97,6 +97,7 @@ public class ModuleService {
                     .setIsActive(true)
                     .build();
         } else applyUpdates(data, maximumDataCount);
+        component.setIsActive(true);
         component.setLastRefresh(now);
         repository.setComponent(component);
         module.addComponent(component);
@@ -122,13 +123,14 @@ public class ModuleService {
         if (original == null) {
             original = Lists.newArrayList();
         }
-        original.add(data);
+        if (original.get(0).getType() != data.getType() || !original.get(0).getData().equals(data.getData())) {
+            original.add(0, data);
+        }
         original.sort((a, b) -> -a.getCreatedAt().compareTo(b.getCreatedAt()));
         if (original.size() < maximumDataCount) {
             return;
         }
         component.setData(original.subList(0, maximumDataCount));
-        component.setActive(true);
     }
 
     private void getComponent(String MAC, int pinNumber) throws ExecutionException, InterruptedException {

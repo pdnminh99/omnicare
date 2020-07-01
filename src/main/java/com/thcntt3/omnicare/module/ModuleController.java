@@ -71,6 +71,7 @@ public class ModuleController {
         ComponentType type = ComponentType.fromText(rawData[3]);
         String stat = rawData[4];
         Timestamp createdAt = Timestamp.ofTimeMicroseconds(epoch * 1_000_000);
+//        Timestamp createdAt = Timestamp.now();
         component = new RawData(stat, type, createdAt);
     }
 

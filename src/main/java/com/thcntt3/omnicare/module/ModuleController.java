@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -28,22 +27,22 @@ public class ModuleController {
         this.service = service;
     }
 
-    @GetMapping("{uid}")
-    public List<Module> getAll(String uid) {
-        return service.getAll(uid);
-    }
+//    @GetMapping("{uid}")
+//    public List<Module> getAll() throws ExecutionException, InterruptedException {
+//        return service.getAll();
+//    }
 
-    @GetMapping("{uid}/{MAC}")
-    public Module connect(@PathVariable String uid,
-                          @PathVariable String MAC) {
-        return service.connect(uid, MAC);
-    }
-
-    @DeleteMapping("{uid}/{MAC}")
-    public void disconnect(@PathVariable String uid,
-                           @PathVariable String MAC) throws ExecutionException, InterruptedException {
-        service.disconnect(uid, MAC);
-    }
+//    @GetMapping("{uid}/{MAC}")
+//    public Module connect(@PathVariable String uid,
+//                          @PathVariable String MAC) {
+//        return service.connect(uid, MAC);
+//    }
+//
+//    @DeleteMapping("{uid}/{MAC}")
+//    public void disconnect(@PathVariable String uid,
+//                           @PathVariable String MAC) throws ExecutionException, InterruptedException {
+//        service.disconnect(uid, MAC);
+//    }
 
     @GetMapping(value = "create/{MAC}", produces = MediaType.TEXT_PLAIN_VALUE)
     public String create(@PathVariable String MAC,

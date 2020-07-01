@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { FireComponent } from '../models/node';
+import {Component, Input} from '@angular/core';
+import {RawData} from '../models/node';
 
 @Component({
   selector: 'app-fire-node-display',
@@ -7,10 +7,10 @@ import { FireComponent } from '../models/node';
     <div
       class="row border rounded p-3"
       [ngClass]="{
-        'bg-success': node?.state == 'SAFE',
-        'bg-danger': node?.state == 'FIRE',
-        'bg-warning': node?.state == 'SMOKE',
-        'white-text': node?.state == 'SAFE' || node?.state == 'FIRE'
+        'bg-success': latestData?.data == 'SAFE',
+        'bg-danger': latestData?.data == 'FIRE',
+        'bg-warning': latestData?.data == 'SMOKE',
+        'white-text': latestData?.data == 'SAFE' || latestData?.data == 'FIRE'
       }"
     >
       <!-- <h1
@@ -19,7 +19,7 @@ import { FireComponent } from '../models/node';
         Port {{ node?.pinNumber }}
       </h1> -->
       <div class="col-12 col-sm-3 d-flex justify-content-center">
-        <img src="../../assets/fire.png" width="80px" height="80px" />
+        <img src="../../assets/fire.png" width="80px" height="80px"/>
       </div>
 
       <div
@@ -30,12 +30,12 @@ import { FireComponent } from '../models/node';
           <div>{{ node?.type?.toString() }}</div>
         </div> -->
 
-        <div class="state-text">{{ node?.state || 'Unknown value' }}</div>
+        <div class="state-text">{{ latestData.data || 'Unknown value' }}</div>
       </div>
     </div>
   `,
   styles: [
-    `
+      `
       .cell h5 {
         text-align: center;
         font-weight: normal;
@@ -53,6 +53,12 @@ import { FireComponent } from '../models/node';
   ],
 })
 export class FireNodeDisplayComponent {
+
+  public get latestData(): RawData {
+    return this.data[0];
+  }
+
   @Input()
-  public node: FireComponent;
+  public data: RawData[] = [];
+
 }

@@ -1,7 +1,7 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Subscription } from 'rxjs';
-import { ComponentType, Node } from '../models/node';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ComponentType, Node} from '../models/node';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {falseIfMissing} from 'protractor/built/util';
 
 @Component({
   selector: 'app-module-display',
@@ -14,7 +14,7 @@ import { ComponentType, Node } from '../models/node';
     </div>
   `,
   styles: [
-    `
+      `
       .badge {
         font-size: 20px;
         font-weight: normal;
@@ -22,40 +22,36 @@ import { ComponentType, Node } from '../models/node';
     `,
   ],
 })
-export class ModuleDisplayComponent implements OnInit, OnDestroy {
-  public MAC = '3C:71:BF:3A:47:7D';
+export class ModuleDisplayComponent implements OnInit {
+
+  public MAC = '9sNvRgOD7mMsoSQh7Y2Y';
 
   public firstComponent: Node;
 
-  private firstNodeSubscription: Subscription;
-
   public secondComponent: Node;
 
-  private secondNodeSubscription: Subscription;
-
-  constructor(private firestore: AngularFirestore) {}
+  constructor(private firestore: AngularFirestore) {
+  }
 
   ngOnInit(): void {
-    this.firstNodeSubscription = this.firestore
-      .collection<Node>('components')
-      .doc(`0_${this.MAC}`)
+    this.firestore
+      .collection('components')
+      .doc<Node>(`0_${this.MAC}`)
       .valueChanges()
-      .subscribe((value) => {
-        this.firstComponent = value as Node;
+      .subscribe(value => {
+        this.firstComponent = value;
       });
-    this.secondNodeSubscription = this.firestore
-      .collection<Node>('components')
-      .doc(`1_${this.MAC}`)
+
+    this.firestore
+      .collection('components')
+      .doc<Node>(`1_${this.MAC}`)
       .valueChanges()
-      .subscribe((value) => {
-        this.secondComponent = value as Node;
+      .subscribe(value => {
+        this.secondComponent = value;
+        console.log(value);
       });
   }
 
-  ngOnDestroy(): void {
-    this.firstNodeSubscription?.unsubscribe();
-    this.secondNodeSubscription?.unsubscribe();
-  }
 }
 
 @Component({
@@ -64,29 +60,30 @@ export class ModuleDisplayComponent implements OnInit, OnDestroy {
     <div>
       <div
         class="node-not-active p-3 border rounded d-flex justify-content-center align-items-center"
-        *ngIf="!isNodeActive"
+        *ngIf="!isActive"
       >
-        <img src="../../assets/sleep.png" />
+        <img src="../../assets/sleep.png"/>
       </div>
 
-      <div *ngIf="isNodeActive">
+      <div *ngIf="isActive">
         <app-fire-node-display
-          *ngIf="isFireNode"
-          [node]="node"
+          *ngIf="componentType == 'FIRE'"
+          [data]="node?.data"
         ></app-fire-node-display>
         <app-temp-humid-display
-          *ngIf="isTempHumidNode"
-          [node]="node"
+          *ngIf="componentType == 'TEMP_HUMID'"
+          [raw]="node?.data"
         ></app-temp-humid-display>
         <app-light-display
-          *ngIf="isLightNode"
-          [node]="node"
+          *ngIf="componentType == 'LIGHT'"
+          [data]="node?.data"
+          [pinNumber]="node?.pinNumber"
         ></app-light-display>
       </div>
     </div>
   `,
   styles: [
-    `
+      `
       .node-not-active {
         text-align: center;
         font-family: sans-serif;
@@ -105,19 +102,11 @@ export class NodeDisplayComponent {
   @Input()
   public node?: Node;
 
-  public get isFireNode(): boolean {
-    return this.node?.type === ComponentType.FIRE;
+  public get componentType(): string {
+    return this.node?.data[0].type as string;
   }
 
-  public get isTempHumidNode(): boolean {
-    return this.node?.type === ComponentType.TEMP_HUMID;
-  }
-
-  public get isLightNode(): boolean {
-    return this.node?.type === ComponentType.LIGHT;
-  }
-
-  public get isNodeActive(): boolean {
-    return this.node !== undefined;
+  public get isActive(): boolean {
+    return this.node?.isActive;
   }
 }

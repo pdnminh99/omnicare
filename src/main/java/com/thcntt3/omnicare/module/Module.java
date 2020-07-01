@@ -36,7 +36,7 @@ public class Module {
     @Exclude
     private List<Component> components;
 
-    private List<String> users;
+//    private List<String> users;
     // Component:
     // - fire: FIRE; 0 - OFF, 1 - SAFE; 2 - SMOKE; 3 - FIRE
     // - temp-humid: TEMP_HUMID
@@ -52,7 +52,6 @@ public class Module {
             @Nullable Timestamp lastRefresh,
             @Nullable String name,
             List<Component> components,
-            List<String> users,
             @Nullable Boolean isActive) {
         this.MAC = MAC;
         this.token = token;
@@ -60,7 +59,7 @@ public class Module {
         this.lastRefresh = lastRefresh;
         this.name = name;
         this.components = components;
-        this.users = users;
+//        this.users = users;
         this.isActive = isActive;
     }
 
@@ -152,11 +151,11 @@ public class Module {
         components.add(component);
     }
 
-    public List<String> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<String> users) {
-        this.users = users;
-    }
+//    public List<String> getUsers() {
+//        return users;
+//    }
+//
+//    public void setUsers(List<String> users) {
+//        this.users = users;
+//    }
 }

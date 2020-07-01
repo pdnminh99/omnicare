@@ -1,13 +1,9 @@
 package com.thcntt3.omnicare.module;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.*;
 import com.google.common.collect.Maps;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -135,22 +131,32 @@ class ModuleRepository {
                 .toObject(Component.class);
     }
 
-    public void sendNotification(Module module) throws JsonProcessingException, FirebaseMessagingException {
-        var mapper = new ObjectMapper();
+//    public void sendNotification(Module module) throws JsonProcessingException, FirebaseMessagingException {
+//        var mapper = new ObjectMapper();
+//
+//        Message.Builder builder = Message.builder();
+//        builder.setTopic(module.getMAC());
+//        builder.putData("components", mapper.writeValueAsString(module.getComponents()));
+//        builder.putData("name", module.getName());
+//
+//        if (module.getLastRefresh() != null) {
+//            builder.putData("lastRefresh", String.valueOf(module.getLastRefresh().toDate().getTime()));
+//        }
+//        if (module.getIsActive() != null) {
+//            builder.putData("isActive", module.getIsActive().toString());
+//        }
+//        Message message = builder
+//                .build();
+//        messaging.send(message);
+//    }
 
-        Message.Builder builder = Message.builder();
-        builder.setTopic(module.getMAC());
-        builder.putData("components", mapper.writeValueAsString(module.getComponents()));
-        builder.putData("name", module.getName());
-
-        if (module.getLastRefresh() != null) {
-            builder.putData("lastRefresh", String.valueOf(module.getLastRefresh().toDate().getTime()));
-        }
-        if (module.getIsActive() != null) {
-            builder.putData("isActive", module.getIsActive().toString());
-        }
-        Message message = builder
-                .build();
-        messaging.send(message);
+    public List<Module> findModuleConnected() throws ExecutionException, InterruptedException {
+        return modulesCollection
+                .get()
+                .get()
+                .getDocuments()
+                .stream()
+                .map(d -> d.toObject(Module.class))
+                .collect(Collectors.toList());
     }
 }

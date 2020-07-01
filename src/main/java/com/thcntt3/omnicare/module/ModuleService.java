@@ -109,7 +109,7 @@ public class ModuleService {
     }
 
     public void publishMessage() throws FirebaseMessagingException, JsonProcessingException {
-        repository.sendNotification(module);
+        // repository.sendNotification(module);
     }
 
     public void flush() {
@@ -159,37 +159,37 @@ public class ModuleService {
 
     public String create(String MAC, String name) throws FirebaseAuthException {
         var now = Timestamp.now();
-        var newModule = new Module(MAC, firebaseAuth.createCustomToken(MAC).trim(), now, now, name, null, Lists.newArrayList(), true);
+        var newModule = new Module(MAC, firebaseAuth.createCustomToken(MAC).trim(), now, now, name, null, true);
         repository.create(newModule);
         return newModule.getToken();
     }
 
-    public List<Module> getAll(String uid) {
-        return Lists.newArrayList();
+    public List<Module> getAll() throws ExecutionException, InterruptedException {
+        return repository.findModuleConnected();
     }
-
-    public Module connect(String uid, String MAC) {
-        return null;
-    }
-
-    public void disconnect(String uid, String MAC) throws ExecutionException, InterruptedException {
-        module = repository.getModule(MAC);
-        if (module == null) {
-            throw new IllegalAccessError("Module with MAC address [" + MAC + "] not found.");
-        }
-        List<String> users = module.getUsers();
-        if (users == null || users.stream().noneMatch(u -> u.equals(uid))) {
-            throw new IllegalArgumentException("User [" + uid + "] does not have access permission to module [" + MAC + "].");
-        }
-        for (int index = 0; index < users.size(); index++) {
-            if (users.get(index).equals(uid)) {
-                users.remove(index);
-                break;
-            }
-        }
-        repository.updateModule(module);
-        repository.commit();
-        flush();
-    }
+//
+//    public Module connect(String uid, String MAC) {
+//        return null;
+//    }
+//
+//    public void disconnect(String uid, String MAC) throws ExecutionException, InterruptedException {
+//        module = repository.getModule(MAC);
+//        if (module == null) {
+//            throw new IllegalAccessError("Module with MAC address [" + MAC + "] not found.");
+//        }
+//        List<String> users = module.getUsers();
+//        if (users == null || users.stream().noneMatch(u -> u.equals(uid))) {
+//            throw new IllegalArgumentException("User [" + uid + "] does not have access permission to module [" + MAC + "].");
+//        }
+//        for (int index = 0; index < users.size(); index++) {
+//            if (users.get(index).equals(uid)) {
+//                users.remove(index);
+//                break;
+//            }
+//        }
+//        repository.updateModule(module);
+//        repository.commit();
+//        flush();
+//    }
 }
 
